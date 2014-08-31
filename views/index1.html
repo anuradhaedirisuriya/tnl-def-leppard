@@ -1,57 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Lines</title>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="socket.io/socket.io.js"></script>
+<title>SoundJS: Web Audio Music Visualizer</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/demoStyles.css" />
+	<script type="text/javascript" src="socket.io/socket.io.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.18/paper-full.js"></script>
-    <script>
 
-        XXXXXXX = 45;
-    </script>
-    <script type="text/paperscript" canvas="canvas">
-        var amount = XXXXXXX;
-        for (var i = 0; i < amount; i++) {
-            var path = new Path({
-                fillColor: {
-                    hue: 1,
-                    saturation: 1,
-                    brightness: Math.random()
-                },
-                closed: true
-            });
-        }
-        var position = view.center;
-        var mousePos = view.center;
-        var children = project.activeLayer.children;
-        function iterate(count) {
-            var delta = mousePos - position;
-            position += delta / 10;
-            for (var i = 1; i < amount; i++) {
-                //var a=Math.random()
-                var a = XXXXXXX*2;
-                var path = children[i];
-                var length = Math.abs(Math.sin(i + count / 40) * a);
-                path.segments = [
-                    position + delta / 1.5,
-                    position + { angle: i / amount * 360, length: length },
-                    position + { angle: (i + 1) / amount * 360, length: length }
-                ];
-                path.fillColor.hue = count - length;
-            }
-        }
-        function onFrame(event) {
-            iterate(event.count);
-        }
-        /*function onMouseMove(event) {
-        iterate();
-        mousePos = event.point;
-        }*/
-    </script>
-
-    <script>
+	
+	    <script>
         var socket = io();
         socket.connect();
         socket.on('connect', function () {
@@ -67,21 +24,52 @@
             $('#text').html('disconnected');
         });
 
-        socket.on('cmd', function (data) {
-            XXXXXXX = data.data.a;
-            //$("body").css('background', "#"+data.data.a*data.data.b*data.data.c);
-            //$('#text').html(data.data.a + ":" + data.data.b + ":" + data.data.c);
-            //circle=document.getElementById('circle');
-            //num=frequencyData[0];
-            //circle.style.width=data.data.a+'px';
-            //circle.style.height=data.data.a+'px';
 
+    </script>
+</head>
 
-        });
+<body onload="init()">
+
+	
+
+    <div class="canvasHolder">
+        <canvas id="testCanvas" width="960" height="400"></canvas>
+    </div>
+
+    <script type="text/javascript" src="assets/easeljs-NEXT.min.js"></script>
+
+	<!-- Note: All SoundJS classes are listed here: -->
+	<script type="text/javascript" src="src/createjs/utils/Proxy.js"></script>
+	<script type="text/javascript" src="src/createjs/utils/IndexOf.js"></script>
+	<script type="text/javascript" src="src/createjs/events/Event.js"></script>
+	<script type="text/javascript" src="src/createjs/events/EventDispatcher.js"></script>
+    <script type="text/javascript" src="src/soundjs/Sound.js"></script>
+    <script type="text/javascript" src="src/soundjs/WebAudioPlugin.js"></script>
+    <script type="text/javascript" src="src/soundjs/HTMLAudioPlugin.js"></script>
+
+    <!-- We also provide hosted minified versions of all CreateJS libraries.
+        http://code.createjs.com -->
+	
+	<script type="text/javascript" src="js/full_circle.js"> </script>
+	
+ 
+	 
+
+    <script>
+        
+		init(); 
+        handleLoad(evt);
+        // this will start our playback in response to a user click, allowing this demo to work on mobile devices
+        startPlayback(evt);
+		
+		
+		tick(evt);
+		innerPolyStar(evt);
+		getWaveImg(thickness);
+		rect(evt);
+		polyStarWave(thickness);
+	
     </script>
 
-</head>
-<body style="background:black">
-    <canvas id="canvas" resize></canvas>
 </body>
 </html>
