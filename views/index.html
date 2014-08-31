@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SoundJS: Web Audio Music Visualizer</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/demoStyles.css" />
+	<script type="text/javascript" src="socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+	
+	    <script>
+        var socket = io();
+        socket.connect();
+        socket.on('connect', function () {
+            $('#text').html('connected');
+            console.log("connected");
+        });
+
+        socket.on('message', function (msg) {
+            $('#msg').html(msg.data.m);
+        });
+
+        socket.on('disconnect', function () {
+            $('#text').html('disconnected');
+        });
+
+
+    </script>
+</head>
+
+<body onload="init()">
+
+	
+
+    <div class="canvasHolder">
+        <canvas id="testCanvas" width="960" height="400"></canvas>
+    </div>
+
+    <script type="text/javascript" src="assets/easeljs-NEXT.min.js"></script>
+
+	<!-- Note: All SoundJS classes are listed here: -->
+	<script type="text/javascript" src="src/createjs/utils/Proxy.js"></script>
+	<script type="text/javascript" src="src/createjs/utils/IndexOf.js"></script>
+	<script type="text/javascript" src="src/createjs/events/Event.js"></script>
+	<script type="text/javascript" src="src/createjs/events/EventDispatcher.js"></script>
+    <script type="text/javascript" src="src/soundjs/Sound.js"></script>
+    <script type="text/javascript" src="src/soundjs/WebAudioPlugin.js"></script>
+    <script type="text/javascript" src="src/soundjs/HTMLAudioPlugin.js"></script>
+
+    <!-- We also provide hosted minified versions of all CreateJS libraries.
+        http://code.createjs.com -->
+	
+	 <script type="text/javascript" src="js/full_circle.js"> </script>
+	
+	<!-- <script type="text/javascript" src="js/full_star.js"></script> -->
+	 
+	<script type="text/javascript" src="js/back_star.js"></script>   
+	 
+
+    <script>
+        
+		init(); 
+        handleLoad(evt);
+        // this will start our playback in response to a user click, allowing this demo to work on mobile devices
+        startPlayback(evt);
+		
+		
+		tick(evt);
+		innerPolyStar(evt);
+		getWaveImg(thickness);
+		rect(evt);
+		polyStarWave(thickness);
+	
+    </script>
+
+</body>
+</html>

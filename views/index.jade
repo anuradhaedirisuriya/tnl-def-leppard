@@ -1,0 +1,80 @@
+extends layout
+
+
+block header
+    script(src="javascripts/paper-full.js")
+    script(type="text/paperscript", canvas="canvas", data-paper-ignore="true")
+            var amount = 45;
+            for (var i = 0; i < amount; i++) {
+                var path = new Path({
+                    fillColor: {
+                        hue: 1,
+                        saturation: 1,
+                        brightness: Math.random()
+                    },
+                    closed: true
+                });
+            }
+ 
+            var position = view.center;
+            var mousePos = view.center;
+            var children = project.activeLayer.children;
+ 
+            function iterate(count) {
+ 
+                var delta = mousePos - position;
+                position += delta / 10;
+                for (var i = 1; i < amount; i++) {
+                    //var a=Math.random()
+               
+                    var path = children[i];
+                    var length = Math.abs(Math.sin(i + count / 40) * a);
+                    path.segments = [
+                        position + delta / 1.5,
+                        position + { angle: i / amount * 360, length: length },
+                        position + { angle: (i + 1) / amount * 360, length: length }
+                    ];
+                    path.fillColor.hue = count - length;
+                }
+            }
+ 
+            function onFrame(event) {
+                iterate(event.count);
+            }
+ 
+block content
+  script(src="socket.io/socket.io.js")
+  script(src="javascripts/Script.js")
+  
+  script
+        var socket = io();
+        socket.connect();
+        socket.on('connect', function () {
+            $('#text').html('connected');
+            console.log("connected");
+        });
+
+        socket.on('message', function (msg) {
+            $('#msg').html(msg.data.m);
+        });
+
+        socket.on('disconnect', function () {
+            $('#text').html('disconnected');
+        });
+
+        socket.on('cmd', function (data) {
+            //$("body").css('background', "#"+data.data.a*data.data.b*data.data.c);
+            //$('#text').html(data.data.a+":"+data.data.b+":"+data.data.c);
+            //circle=document.getElementById('circle');
+            //num=frequencyData[0];
+            //circle.style.width=data.data.a+'px';
+            //circle.style.height=data.data.a+'px';
+            
+
+        });
+
+  h1= title
+  div(id="text") text
+  div(id="msg") .
+  div(id="contex")
+    canvas(id="canvas", resize)
